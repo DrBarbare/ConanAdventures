@@ -1,11 +1,13 @@
-#include <SFML/Graphics.hpp>
 #include <cstdint>
+#include <random>
+
+#include <SFML/Graphics.hpp>
 #include <entt/entt.hpp>
 
 struct position
 {
-	float x;
-	float y;
+	int x;
+	int y;
 };
 
 struct velocity
@@ -41,6 +43,40 @@ update(float dt, entt::registry<>& registry)
 	});
 }
 
+static auto rng_engine = std::default_random_engine();
+static std::uniform_int_distribution x_dist(0, 600);
+static std::uniform_int_distribution y_dist(0, 360);
+
+
+static std::uniform_real_distribution dx_dist(-100.0f, 100.0f);
+static std::uniform_real_distribution dy_dist(-100.0f, 100.0f);
+
+position
+randomPosition()
+{
+	return {x_dist(rng_engine), y_dist(rng_engine)};
+}
+
+velocity
+randomVelocity()
+{
+	return {dx_dist(rng_engine), dy_dist(rng_engine)};
+}
+
+static sf::Vector2f shapesSize{10.0f, 10.0f};
+
+void
+createEntity(entt::registry<>& registry)
+{
+	auto entity = registry.create();
+
+	registry.assign<position>(entity, randomPosition());
+	registry.assign<sf::RectangleShape>(entity, shapesSize);
+
+	// Assign initial velocity
+	registry.assign<velocity>(entity, randomVelocity());
+}
+
 int
 main()
 {
@@ -48,14 +84,7 @@ main()
 
 	for (auto i = 0; i < 10; ++i)
 	{
-		auto entity = registry.create();
-		registry.assign<position>(entity, i * 1.f, i * 1.f);
-		registry.assign<sf::RectangleShape>(entity, sf::Vector2f{10.0f, 10.0f});
-
-		if (i % 2 == 0)
-		{
-			registry.assign<velocity>(entity, i * 10.0f, i * 10.0f);
-		}
+		createEntity(registry);
 	}
 
 	sf::RenderWindow sfmlWin(sf::VideoMode(600, 360), "Conan adventure begins!", sf::Style::Close);
@@ -73,9 +102,10 @@ main()
 				case sf::Event::EventType::Closed:
 					sfmlWin.close();
 					break;
-			}
-			case sf::Event::EvenType::KeyPressed:
-			{
+				case sf::Event::EventType::KeyPressed:
+				{
+					break;
+				}
 			}
 		}
 
