@@ -1,0 +1,15 @@
+*build*/
+*Build*/
+
+**.o
+**.a
+**.so
+
+**/CMakeCache.txt
+**/CMakeFiles/
+.vscode/
+.vs/
+
+# Conan files
+conan*info.*
+graph_info.json
