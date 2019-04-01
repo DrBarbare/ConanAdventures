@@ -1,0 +1,16 @@
+﻿---
+BasedOnStyle: Mozilla
+BreakBeforeBinaryOperators: All
+BreakBeforeBraces: Allman
+BreakConstructorInitializers: BeforeComma
+ColumnLimit: '100'
+ConstructorInitializerIndentWidth: '4'
+ContinuationIndentWidth: '4'
+Cpp11BracedListStyle: 'true'
+IndentWidth: '4'
+Language: Cpp
+Standard: Cpp11
+TabWidth: '4'
+UseTab: ForIndentation
+
+...
