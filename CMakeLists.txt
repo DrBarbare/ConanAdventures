@@ -9,5 +9,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(${CMAKE_SOURCE_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
+add_library(GlyphTileMap OBJECT external/jpadkins/GlyphTileMap.cpp)
+target_include_directories(GlyphTileMap PUBLIC external)
+target_link_libraries(GlyphTileMap PUBLIC ${CONAN_LIBS})
+
 add_executable(ConanAdventures src/main.cpp)
-target_link_libraries(ConanAdventures ${CONAN_LIBS})
+target_link_libraries(ConanAdventures PUBLIC GlyphTileMap)
